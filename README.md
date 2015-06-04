@@ -25,7 +25,7 @@ class StateMachine
   
   include Opal::StateMachine
   
-  state_machine_options :state_name => component_state, :whiny_transitions => true
+  state_machine_options :state_name => :component_state, :whiny_transitions => true
   
   state :cleaning
   state :sleeping, :initial => true

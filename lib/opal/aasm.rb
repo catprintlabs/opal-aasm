@@ -17,17 +17,6 @@ module React
         # define the hidden state variable
         define_state :protected_current_react_state_var
 
-        # when component is mounted (created) create the current state accessor
-        # We have to wait till the component is mounted because aasm.current_state does not
-        # exist until then.
-        before_mount do
-          self.class.class_eval do
-            define_method(@state_machine_var_name || :current_state) do
-              aasm.current_state
-            end 
-          end if respond_to? :aasm # don't bother if aasm has not be included in this class
-        end
-
       end
     end 
   end
@@ -35,6 +24,10 @@ end
 
 module Opal
   module StateMachine
+    
+    def current_state
+      aasm.current_state
+    end
     
     module AASMAPI
       
@@ -51,7 +44,9 @@ module Opal
       # add the state_machine_options directive and the new :state_name option
 
       def state_machine_options(opts={})
-        @state_machine_var_name = opts.delete(:state_name) if opts[:state_name]
+        define_method(opts.delete(:state_name)) do 
+          aasm.current_state
+        end if opts[:state_name]
         aasm opts
       end
 
