@@ -1,6 +1,6 @@
 # Acts-As-State-Machine for Opal
 
-Allows the [Acts As State Machine (aasm)](https://github.com/aasm/aasm) gem to be used with the [Opal Ruby Transpiler](http://opalrb.org/).  Its also ready to work right along side react.rb UI components.  For detailed documentation on Acts As State Machine, refer the to [AASM](https://github.com/aasm/aasm) github page.
+Allows the [Acts As State Machine (aasm)](https://github.com/aasm/aasm) gem to be used with the [Opal Ruby Transpiler](http://opalrb.org/).  Its also ready to work right along side [react.rb](https://github.com/zetachang/react.rb) UI components.  For detailed documentation on Acts As State Machine, refer the to [AASM](https://github.com/aasm/aasm) github page.
 
 ## Installation
 
@@ -25,7 +25,7 @@ class StateMachine
   
   include Opal::StateMachine
   
-  state_machine_options state_name: :component_state, :whiny_transitions => true
+  state_machine_options :state_name => component_state, :whiny_transitions => true
   
   state :cleaning
   state :sleeping, :initial => true
@@ -59,7 +59,7 @@ may still do so if desired. If you have a name conflict with `state` or `event` 
 
 To send options to AASM use the `state_machine_options` directive as shown above.
 
-Opal-aasm will define a method called `current-state` that can be used to get the current state.  You may override
+Opal-aasm will define a method called `current_state` that can be used to get the current state.  You may override
 the method name by using the `state_name` option in the `state_machine_options` directive as shown above. 
 
 ## Using with [React.rb](https://github.com/zetachang/react.rb) 
@@ -84,18 +84,18 @@ class StateMachine
 end
 ```
 
-When `React::Component` is included `Opal::StateMachine` creates a hidden react state that it updates whenever there is a state transition.  The rest is handled by the magic of React.
+When both `React::Component` and `Opal::StateMachine` are included in the same class a hidden react state is updated whenever there is a state transition.  The rest is handled by the magic of React.
 
 AASM creates two methods for each event, for example `clean` and `clean!`.  Normally you will use the `clean!` method as this updates the underlying `React::Component` state.  For example `clean` is used on the last button in the example, and
 because of this the value of component_state will not change, and so the component will not be re-rendered by react. 
 
-## Summary of additional features introduced by opal-aasm 
+## Summary of additional features 
 
-The opal-aasm gem is intended to be upwards compatible with the standard opal-aasm.  The following are the additional features added by opal-aasm.
+The opal-aasm gem is intended to be upwards compatible with the standard AASM.  The following are the additional features added by opal-aasm.
 
 * No need to wrap `state` and `event` directives in an aasm block.
 * AASM options may be provided using the `state_machine_options` directive.
-* The `current_state` method may be used access the current state.  The name can be changed using the `state_name` option.
+* The `current_state` method may be used to access the current state.  The name can be changed using the `state_name` option.
 * Will persist the current state as a react state variable if the `React::Component` mixin is present in the same class.
 * Use of the plain or bang! event methods will determine if the react state will be updated. 
 
