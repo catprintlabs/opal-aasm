@@ -26,6 +26,9 @@ DESCRIPTION
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "opal-rspec"
+  spec.add_development_dependency "opal-jquery"
+  spec.add_development_dependency 'react-source', '~> 0.12'
+  spec.add_development_dependency 'opal-react'
   spec.add_runtime_dependency 'opal'
   spec.add_runtime_dependency 'aasm'
   

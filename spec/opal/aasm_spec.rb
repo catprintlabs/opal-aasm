@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'opal-aasm'
 
 class StateMachine
   
@@ -9,7 +8,7 @@ class StateMachine
   state :sleeping, :initial => true
   state :running
 
-  event(:run, after: -> () {puts "started running!!!!!!"}) do
+  event(:run) do
     transitions :from => :sleeping, :to => :running
   end
 
@@ -30,16 +29,18 @@ end
 class QuietMachine
   include Opal::StateMachine
   state_machine_options :whiny_transitions => false
-  state :awake
-  state :asleep
-  event(:wakeup) #{}#transitions :from => :asleep, :to => :awake}
+  state :s1
+  event(:e) 
 end
+  
+  
 
 describe Opal::StateMachine do
+
   it 'has a version number' do
     expect(Opal::StateMachine::VERSION).not_to be nil
   end
-  
+
   it 'has a current_state method' do
     expect(StateMachine.new.current_state).to eq('sleeping')
   end
@@ -63,7 +64,8 @@ describe Opal::StateMachine do
   end
   
   it "can send other options such as :whiny_transitions to AASM" do
-    expect{QuietMachine.new.wakeup}.not_to raise_error
+    expect{QuietMachine.new.e}.not_to raise_error
   end
-    
+  
+  
 end
